@@ -3,13 +3,16 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { USERS_DB } from './user.database';
 import { v4 } from 'uuid';
+import { plainToClass } from 'class-transformer';
+import { SerializedUser } from './serializedUser';
 
 @Injectable()
 export class UserService {
   create(createUserDto: CreateUserDto) {
     const newUser = {
       id: v4(),
-      ...createUserDto,
+      login: createUserDto.login,
+      password: createUserDto.password,
       version: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -20,7 +23,7 @@ export class UserService {
   }
 
   findAll() {
-    return `This action returns all user`;
+    return USERS_DB.map((user) => plainToClass(SerializedUser, user));
   }
 
   findOne(id: number) {

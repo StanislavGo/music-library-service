@@ -19,7 +19,7 @@ export class UserController {
   @Get()
   @HttpCode(200)
   findAll() {
-    // return HERE I NEED TO RETURN ALL DATA FROM DATABASE
+    return this.userService.findAll();
   }
 
   @Get(':id')
