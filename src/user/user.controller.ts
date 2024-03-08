@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,12 +9,17 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    if (createUserDto.login.length === 0 || createUserDto.password.length === 0) {
+      throw new BadRequestException("request body does not contain required fields");
+    } else {
+      return this.userService.create(createUserDto);
+    }
   }
 
   @Get()
+  @HttpCode(200)
   findAll() {
-    return this.userService.findAll();
+    // return HERE I NEED TO RETURN ALL DATA FROM DATABASE
   }
 
   @Get(':id')
