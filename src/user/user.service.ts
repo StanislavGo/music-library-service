@@ -26,8 +26,8 @@ export class UserService {
     return USERS_DB.map((user) => plainToClass(SerializedUser, user));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    return USERS_DB.find((user) => user.id === String(id));
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
