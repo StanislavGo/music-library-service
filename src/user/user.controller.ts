@@ -3,23 +3,18 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { validate } from 'uuid';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @HttpCode(201)
-  create(@Body() createUserDto: CreateUserDto) {
-    if (createUserDto.login.length === 0 || createUserDto.password.length === 0) {
-      throw new BadRequestException("request body does not contain required fields");
-    } else {
-      return this.userService.create(createUserDto);
-    }
+  create(@Body() createUserDto: CreateUserDto): UserEntity {
+    return this.userService.create(createUserDto);
   }
 
   @Get()
-  @HttpCode(200)
   findAll() {
     return this.userService.findAll();
   }

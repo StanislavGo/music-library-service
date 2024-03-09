@@ -5,29 +5,31 @@ import { USERS_DB } from './user.database';
 import { v4 } from 'uuid';
 import { plainToClass } from 'class-transformer';
 import { SerializedUser } from './serializedUser';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
   create(createUserDto: CreateUserDto) {
-    const newUser = {
+    const newUser: UserEntity = new UserEntity({
       id: v4(),
       login: createUserDto.login,
       password: createUserDto.password,
       version: 1,
-      createdAt: new Date().getTime(),
-      updatedAt: new Date().getTime(),
-    };
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
 
     USERS_DB.push(newUser);
     return newUser;
   }
 
-  findAll() {
+  findAll(): UserEntity[] {
     return USERS_DB.map((user) => plainToClass(SerializedUser, user));
   }
 
   findOne(id: string) {
-    return USERS_DB.find((user) => user.id === String(id));
+    const userToFind = USERS_DB.find((user) => user.id === id);
+    return plainToClass(SerializedUser, userToFind);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

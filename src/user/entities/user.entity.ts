@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 
-export class User {
+export class UserEntity {
   id: string;
   login: string;
 
@@ -11,7 +11,7 @@ export class User {
   createdAt: number;
   updatedAt: number;
 
-  constructor(partial: Partial<User>) {
+  constructor(partial: Partial<UserEntity>) {
     this.id = partial.id;
     this.login = partial.login;
     this.password = partial.password;
