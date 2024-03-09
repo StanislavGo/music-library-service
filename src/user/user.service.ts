@@ -14,8 +14,8 @@ export class UserService {
       login: createUserDto.login,
       password: createUserDto.password,
       version: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().getTime(),
+      updatedAt: new Date().getTime(),
     };
 
     USERS_DB.push(newUser);
