@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException, NotFoundException, ParseUUIDPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { validate } from 'uuid';
 import { UserEntity } from './entities/user.entity';
+import { StatusCodes } from 'http-status-codes';
 
 @Controller('user')
 export class UserController {
@@ -31,12 +32,21 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string,
+  @Body() updateUserDto: UpdateUserDto) {
+    if (this.userService.findOne(id) === undefined) {
+      throw new NotFoundException("user with such id does not exist");
+    }
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @HttpCode(StatusCodes.NO_CONTENT)
+  remove(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string) {
+    try {
+      return this.userService.remove(id);
+    } catch {
+
+    }
   }
 }

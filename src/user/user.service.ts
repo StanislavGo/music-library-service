@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { USERS_DB } from './user.database';
@@ -32,11 +32,23 @@ export class UserService {
     return plainToClass(SerializedUser, userToFind);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(id: string, updateUserDto: UpdateUserDto) {
+    const oldPassword = updateUserDto.oldPassword;
+    const newPassword = updateUserDto.newPassword;
+    const currentUser = USERS_DB.find((user) => user.id === id);
+    const currentUserPassword = currentUser.password;
+    
+    if (currentUserPassword === oldPassword) {
+      currentUser.password = newPassword;
+      currentUser.updatedAt = Date.now();
+      currentUser.version++;
+      console.log(currentUser);
+    } else {
+      throw new ForbiddenException("oldPassword is wrong");
+    }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }
