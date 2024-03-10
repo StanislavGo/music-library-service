@@ -43,10 +43,6 @@ export class UserController {
   @Delete(':id')
   @HttpCode(StatusCodes.NO_CONTENT)
   remove(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string) {
-    try {
-      return this.userService.remove(id);
-    } catch {
-
-    }
+    return this.userService.remove(id);
   }
 }

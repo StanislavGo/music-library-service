@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { USERS_DB } from './user.database';
@@ -49,6 +49,10 @@ export class UserService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} user`;
+    if (this.findOne(id)) {
+      USERS_DB.splice(USERS_DB.indexOf(this.findOne(id)), 1);
+    } else {
+      throw new NotFoundException("User not found");
+    }
   }
 }
