@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
+import { TRACKS_DB } from './track.database';
 
 @Injectable()
 export class TrackService {
@@ -9,7 +10,7 @@ export class TrackService {
   }
 
   findAll() {
-    return `This action returns all track`;
+    return TRACKS_DB;
   }
 
   findOne(id: number) {
