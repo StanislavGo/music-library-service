@@ -5,7 +5,7 @@ import { UpdateFavDto } from './dto/update-fav.dto';
 @Injectable()
 export class FavsService {
   create(createFavDto: CreateFavDto) {
-    return 'This action adds a new fav';
+    return createFavDto;
   }
 
   findAll() {
@@ -17,7 +17,7 @@ export class FavsService {
   }
 
   update(id: number, updateFavDto: UpdateFavDto) {
-    return `This action updates a #${id} fav`;
+    return updateFavDto;
   }
 
   remove(id: number) {
