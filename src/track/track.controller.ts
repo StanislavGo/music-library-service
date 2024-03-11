@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException, ParseUUIDPipe, HttpCode, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, NotFoundException, ParseUUIDPipe, HttpCode, Put } from '@nestjs/common';
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { validate } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
 
 @Controller('track')

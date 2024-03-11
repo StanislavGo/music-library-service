@@ -10,8 +10,9 @@ import { UserEntity } from './entities/user.entity';
 @Injectable()
 export class UserService {
   create(createUserDto: CreateUserDto) {
+    const id = v4()
     const newUser: UserEntity = new UserEntity({
-      id: v4(),
+      id,
       login: createUserDto.login,
       password: createUserDto.password,
       version: 1,
@@ -43,6 +44,8 @@ export class UserService {
       USERS_DB[indexOfCurrentUser].password = newPassword;
       USERS_DB[indexOfCurrentUser].updatedAt = Date.now();
       USERS_DB[indexOfCurrentUser].version++;
+
+      return USERS_DB[indexOfCurrentUser];
     } else {
       throw new ForbiddenException("oldPassword is wrong");
     }
