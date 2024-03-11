@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { ALBUMS_DB } from './album.database';
 import { v4 } from 'uuid';
 import { AlbumEntity } from './entities/album.entity';
+import { TRACKS_DB } from 'src/track/track.database';
 
 @Injectable()
 export class AlbumService {
@@ -41,6 +42,16 @@ export class AlbumService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} album`;
+    if (this.findOne(id)) {
+      ALBUMS_DB.splice(ALBUMS_DB.indexOf(this.findOne(id)), 1);
+      
+      for (let i = 0; i < TRACKS_DB.length; i++) {
+        if (TRACKS_DB[i].albumId === id) {
+          TRACKS_DB[i].albumId = null;
+        };
+      };
+    } else {
+      throw new NotFoundException('Album not found');
+    }
   }
 }

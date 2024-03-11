@@ -12,7 +12,7 @@ export const TRACKS_DB: TrackEntity[] = [
     "id": "dfadf1a8-03d8-4652-8195-f2d7d2ceb7c6",
     "name": "Track2",
     "artistId": null,
-    "albumId": null,
+    "albumId": "f4e15a76-f0cd-4572-8d35-db9132b68f51",
     "duration": 260
   },
   {
