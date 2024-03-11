@@ -21,7 +21,7 @@ export class TrackController {
   @Get(':id')
   findOne(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string) {
     if (this.trackService.findOne(id) === undefined) {
-      throw new NotFoundException("user with such id does not exist");
+      throw new NotFoundException("track with such id does not exist");
     };
     return this.trackService.findOne(id);
   }
@@ -30,7 +30,7 @@ export class TrackController {
   update(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string, 
   @Body() updateTrackDto: UpdateTrackDto) {
     if (this.trackService.findOne(id) === undefined) {
-      throw new NotFoundException("user with such id does not exist");
+      throw new NotFoundException("track with such id does not exist");
     };
     return this.trackService.update(id, updateTrackDto);
   }

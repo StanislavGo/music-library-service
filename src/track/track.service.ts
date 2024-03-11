@@ -44,7 +44,7 @@ export class TrackService {
     if (this.findOne(id)) {
       TRACKS_DB.splice(TRACKS_DB.indexOf(this.findOne(id)), 1);
     } else {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException("Track not found");
     }
   }
 }
