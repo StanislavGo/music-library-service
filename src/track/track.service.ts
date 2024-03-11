@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TRACKS_DB } from './track.database';
@@ -32,13 +32,17 @@ export class TrackService {
   update(id: string, updateTrackDto: UpdateTrackDto) {
     const currentTrack = this.findOne(id);
     const currentTrackId = TRACKS_DB.indexOf(currentTrack); 
-    TRACKS_DB[currentTrackId].name = updateTrackDto.name;
-    TRACKS_DB[currentTrackId].duration = updateTrackDto.duration;
-    TRACKS_DB[currentTrackId].artistId = updateTrackDto.artistId;
-    TRACKS_DB[currentTrackId].albumId = updateTrackDto.albumId;
+    TRACKS_DB[currentTrackId].name = updateTrackDto.name || TRACKS_DB[currentTrackId].name;
+    TRACKS_DB[currentTrackId].duration = updateTrackDto.duration || TRACKS_DB[currentTrackId].duration;
+    TRACKS_DB[currentTrackId].artistId = updateTrackDto.artistId || TRACKS_DB[currentTrackId].artistId;
+    TRACKS_DB[currentTrackId].albumId = updateTrackDto.albumId || TRACKS_DB[currentTrackId].albumId;
   }
 
   remove(id: string) {
-    return `This action removes a #${id} track`;
+    if (this.findOne(id)) {
+      TRACKS_DB.splice(TRACKS_DB.indexOf(this.findOne(id)), 1);
+    } else {
+      throw new NotFoundException("User not found");
+    }
   }
 }

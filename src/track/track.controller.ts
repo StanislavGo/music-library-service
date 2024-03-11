@@ -3,6 +3,7 @@ import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { validate } from 'uuid';
+import { StatusCodes } from 'http-status-codes';
 
 @Controller('track')
 export class TrackController {
@@ -27,7 +28,8 @@ export class TrackController {
   }
 
   @Put(':id')
-  update(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string, @Body() updateTrackDto: UpdateTrackDto) {
+  update(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string, 
+  @Body() updateTrackDto: UpdateTrackDto) {
     if (this.trackService.findOne(id) === undefined) {
       throw new NotFoundException("user with such id does not exist");
     };
@@ -35,7 +37,8 @@ export class TrackController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @HttpCode(StatusCodes.NO_CONTENT)
+  remove(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string) {
     return this.trackService.remove(id);
   }
 }
