@@ -36,6 +36,8 @@ export class TrackService {
     TRACKS_DB[currentTrackId].duration = updateTrackDto.duration || TRACKS_DB[currentTrackId].duration;
     TRACKS_DB[currentTrackId].artistId = updateTrackDto.artistId || TRACKS_DB[currentTrackId].artistId;
     TRACKS_DB[currentTrackId].albumId = updateTrackDto.albumId || TRACKS_DB[currentTrackId].albumId;
+
+    return TRACKS_DB[currentTrackId];
   }
 
   remove(id: string) {
