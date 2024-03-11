@@ -36,13 +36,13 @@ export class UserService {
     const oldPassword = updateUserDto.oldPassword;
     const newPassword = updateUserDto.newPassword;
     const currentUser = USERS_DB.find((user) => user.id === id);
+    const indexOfCurrentUser = USERS_DB.indexOf(currentUser);
     const currentUserPassword = currentUser.password;
     
     if (currentUserPassword === oldPassword) {
-      currentUser.password = newPassword;
-      currentUser.updatedAt = Date.now();
-      currentUser.version++;
-      console.log(currentUser);
+      USERS_DB[indexOfCurrentUser].password = newPassword;
+      USERS_DB[indexOfCurrentUser].updatedAt = Date.now();
+      USERS_DB[indexOfCurrentUser].version++;
     } else {
       throw new ForbiddenException("oldPassword is wrong");
     }

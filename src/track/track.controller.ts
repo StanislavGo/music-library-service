@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException, ParseUUIDPipe, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException, ParseUUIDPipe, HttpCode, Put } from '@nestjs/common';
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -22,12 +22,15 @@ export class TrackController {
   findOne(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string) {
     if (this.trackService.findOne(id) === undefined) {
       throw new NotFoundException("user with such id does not exist");
-    }
+    };
     return this.trackService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto) {
+  @Put(':id')
+  update(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string, @Body() updateTrackDto: UpdateTrackDto) {
+    if (this.trackService.findOne(id) === undefined) {
+      throw new NotFoundException("user with such id does not exist");
+    };
     return this.trackService.update(id, updateTrackDto);
   }
 

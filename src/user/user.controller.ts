@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException, NotFoundException, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException, NotFoundException, ParseUUIDPipe, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -22,16 +22,14 @@ export class UserController {
 
   @Get(':id')
   @HttpCode(200)
-  findOne(@Param('id') id: string) {
-    if(!validate(id)) {
-      throw new BadRequestException("id is not valid");
-    } else if (this.userService.findOne(id) === undefined) {
+  findOne(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string): UserEntity {
+    if (this.userService.findOne(id) === undefined) {
       throw new NotFoundException("user with such id does not exist");
     }
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id', new ParseUUIDPipe({ version: "4" })) id: string,
   @Body() updateUserDto: UpdateUserDto) {
     if (this.userService.findOne(id) === undefined) {
