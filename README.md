@@ -5,13 +5,15 @@
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 
-## Downloading
+## 1. Downloading
 
 ```
 git clone {repository URL}
 ```
 
-## Installing NPM modules
+## 2. Create .env file from .env.example after downloading
+
+## 3. Installing NPM modules
 
 ```
 npm install
